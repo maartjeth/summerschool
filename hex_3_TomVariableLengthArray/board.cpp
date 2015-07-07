@@ -8,6 +8,7 @@ Class that constructs the board.
 #include <iostream>
 #include "block.h"
 #include "board.h"
+#include "vector"
 
 using namespace std;
 
@@ -39,7 +40,11 @@ Board::Board(int a, int b)
 
 void Board::makeBoard(int width, int height)
 {
-    Block board[width][height];
+//    Block board[width][height];
+    vector<vector<Block> > board(height);
+    for ( int i = 0 ; i < height ; i++ )
+        board[i].resize(width);
+//    Block board = matrix;
 
 }
 
