@@ -43,17 +43,6 @@ Block::Block(int a)
     {
         cout << "This is not valid input.\n";
     }
-    // if (!((a == 1) || (a == -1)))
-    // {
-    //     throw invalid_argument("Value should be set to 1 or -1!");
-    //     //player = a;
-    // }
-    // else
-    // {
-    //     player = a;
-    //     //throw invalid_argument("Value should be set to 1 or -1.");
-    // }
-
 }
 
 // Setter to change player's value if needed
@@ -88,10 +77,9 @@ int main()
     int turn;
     Block block1(1);
     turn = block1.getPlayer();
+    cout << "Player's turn: " << turn << endl;
     block1.setPlayer(0);
-    cout << "Player's turn: " << turn;
-    //block1.setPlayer(0);
-    //turn = block1.getPlayer();
-    //cout << "Player's turn: " << turn;
+    turn = block1.getPlayer();
+    cout << "Player's turn: " << turn << endl;
     return 0;
 }
