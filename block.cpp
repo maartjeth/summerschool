@@ -59,13 +59,20 @@ Block::Block(int a)
 // Setter to change player's value if needed
 void Block::setPlayer(int a)
 {
-    if ((a == 1 || a == -1))
+    try
     {
-        player = a;
+        if ((a == 1) || (a == -1))
+        {
+            player = a;
+        }
+        else
+        {
+            throw 1;
+        }
     }
-    else
+    catch (int e)
     {
-        throw invalid_argument("Value should be set to 1 or -1.");
+        cout << "This is not valid input.\n";
     }
 }
 
@@ -81,6 +88,7 @@ int main()
     int turn;
     Block block1(1);
     turn = block1.getPlayer();
+    block1.setPlayer(0);
     cout << "Player's turn: " << turn;
     //block1.setPlayer(0);
     //turn = block1.getPlayer();

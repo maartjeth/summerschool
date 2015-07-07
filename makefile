@@ -1,5 +1,5 @@
 SRC_FILES = src/hex.cpp
-CC_FLAGS = -Weverything -g 
+CC_FLAGS = -Weverything -g
 CC = g++
 
 all:
