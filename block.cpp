@@ -28,16 +28,31 @@ Block::Block()
 // Constructor: Set player to a
 Block::Block(int a)
 {
-    if (!((a == 1) || (a == -1)))
+    try
     {
-        throw invalid_argument("Value should be set to 1 or -1!");
-        //player = a;
+        if ((a == 1) || (a == -1))
+        {
+            player = a;
+        }
+        else
+        {
+            throw 1;
+        }
     }
-    else
+    catch (int e)
     {
-        player = a;
-        //throw invalid_argument("Value should be set to 1 or -1.");
+        cout << "This is not valid input.\n";
     }
+    // if (!((a == 1) || (a == -1)))
+    // {
+    //     throw invalid_argument("Value should be set to 1 or -1!");
+    //     //player = a;
+    // }
+    // else
+    // {
+    //     player = a;
+    //     //throw invalid_argument("Value should be set to 1 or -1.");
+    // }
 
 }
 
@@ -64,7 +79,7 @@ int Block::getPlayer(void)
 int main()
 {
     int turn;
-    Block block1(0);
+    Block block1(1);
     turn = block1.getPlayer();
     cout << "Player's turn: " << turn;
     //block1.setPlayer(0);
