@@ -5,20 +5,28 @@ class hexBoard
 /* Initialize a board for the game Hex. */
 {
 public:
-    void InitBoard(int nRows, int nCols)
+    void InitBoard(int nRows = 11, int nCols = 11)
     {
-        char board[nRows][nCols];
+        /*
+        The board is wider than the amount of coloms because of the staggered
+        nature of the playing board.
+        */
+        int width = 4 * nCols;
+        char board[nRows][width];
 
+        /* The board is populated.*/
         for (int i = 0; i < nRows; i++)
         {
-            for (int j = 0; j < nCols; j++)
+            for (int j = 0; j < 2 * nCols; j+=2)
             {
                 board[i][j] = '_';
+                board[i][j+1] = ' ';
             }
         }
+        /* The board is printed. */
         for (int k = 0; k < nRows; k++)
         {
-            for (int m = 0; m < nCols; m++)
+            for (int m = 0; m < width; m++)
             {
                 std::cout << board[k][m];
             }
@@ -50,6 +58,6 @@ public:
 int main()
 {
     hexBoard board;
-    board.InitBoard(11,11);
+    board.InitBoard(13,13);
 
 }
