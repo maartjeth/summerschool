@@ -17,6 +17,10 @@ public:
         /* The board is populated.*/
         for (int i = 0; i < nRows; i++)
         {
+            /* TODO:An offset is made to stagger the board. */
+
+
+
             for (int j = 0; j < 2 * nCols; j+=2)
             {
                 board[i][j] = '_';
