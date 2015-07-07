@@ -1,8 +1,8 @@
 /*
-*This is the introduction of the game Hex. If the user enters 'n' the windows will shut down and if the user
-*enters 'y' the game will remain running, i.e. runGame(), until the user types 'exit'.
+* Authors: Jaco & Tom
+* This is the introduction to the game Hex. Running this file will start the game.
 *
-*!!This code is not finished yet, some parts are still missing.
+* !! This code is not finished yet; game should be implemented in While loop.
 */
 
 
@@ -10,20 +10,51 @@
 #include <string>
 
 using namespace std;
+
+void runGame(){
+    
+}
+
 int main (){
-    cout << "Welcome to Hex! \nDo you want to start a new game? (y/n)";
+//  The user can choose to start with 'y' or quit with 'n'. Any other command will ask again to start the game.
+    cout << "Welcome to Hex! \n";
+start:
+    cout << "Do you want to start a new game? (y/n) \n";
     string mystr;
     bool gameRunning;
     getline (cin, mystr);
     if (mystr == "y"){
         gameRunning = true;
+        cout << "Type '?' to check if game is running; type 'exit' to shut down. \n";
+    }
+    else if(mystr == "n"){
+        gameRunning = false;
+        cout << "Too bad...";
     }
     else{
-        gameRunning = false;
-        cout << "The game will shut down.";
+        cout << "Command unknown; please use 'y' or 'n'... \n";
+        goto start;
     }
+//  If the user starts the game using 'y', the game will run (i.e. runGame();).
+//  The user can check if the game is still running with '?' and can quit the game with 'exit'.
     while (gameRunning){
-        //runGame();
+        getline (cin, mystr);
+        if (mystr == "exit"){
+            gameRunning = false;
+            cout << "The game will shut down.";
+        }
+        else if(mystr == "?"){
+            gameRunning = true;
+            cout << "Game still running \n";
+            //runGame();
+            // << Here the actual game should be implemented (possibly instead of checking if the game still runs). >>
+        }
+        else{
+            gameRunning = true;
+            cout << "Command unknown \n";
+            //runGame();
+        }
+
     }
 	return 0;
 }
