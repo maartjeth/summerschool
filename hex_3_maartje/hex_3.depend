@@ -1,0 +1,20 @@
+# depslib dependency file v1.0
+1436281299 source:c:\users\maartje\documents\github\summerschool\hex_3\block.cpp
+	"block.h"
+	<iostream>
+	<stdexcept>
+
+1436278463 c:\users\maartje\documents\github\summerschool\hex_3\block.h
+
+1436289519 source:c:\users\maartje\documents\github\summerschool\hex_3\board.cpp
+	<iostream>
+	"block.h"
+	"board.h"
+
+1436278599 c:\users\maartje\documents\github\summerschool\hex_3\block.cpp
+	"block.h"
+	<iostream>
+	<stdexcept>
+
+1436289156 c:\users\maartje\documents\github\summerschool\hex_3\board.h
+
