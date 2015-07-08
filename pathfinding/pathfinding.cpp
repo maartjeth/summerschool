@@ -5,45 +5,49 @@
 #include <stack>
 #include <list>
 
-class intArray
-{
-public:
-    int board[169];
-    int sizearray = sizeof(board)/sizeof(*board);
-
-    void popArray ()
-    {
-        for (int i = 0; i < sizearray; i++)
-        {
-            board[i] = 0;
-        }
-        for (int j = 0; j < sizearray; j++)
-        {
-            std::cout << board[j];
-            if ((j+1) % 13 ==0) {
-                std::cout << std::endl;
-            }
-        }
-    }
-
-};
-
 class pathfinding
 {
     /*
     Find a route through a board represented as an integer array by using
-    Depth First Search
+    Depth First Search.
     */
 
 public:
+    // List of nodes that have been visited.
+    std::list<int> visited;
+    // Stack of nodes still to visit.
+    std::stack<int> nodes;
+
+    bool isVisited()
+    {
+
+    }
+
+    bool isValidNeighbour(int position, int player, std::list<int> visitednode, int nCols, int nRows)
+    {
+        // Number of array elements.
+        int nArrElements;
+        nArrElements = nCols * nRows;
+
+        // Check whether the position is valid.
+        if (position < nArrElements)
+        {
+            if (position >= 0)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     void dfs(int arr [], int startnode, int nRow, int nCols)
     {
-        // List of nodes that have been visited.
-        std::list<int> visited;
-        // Stack of nodes still to visit.
-        std::stack<int> nodes;
         // Add first node to the stack.
         nodes.push(startnode);
+
+        // Current player.
+        int player;
+        player = 1;
 
         // While there are still nodes to be visited.
         while (!nodes.empty())
@@ -57,7 +61,7 @@ public:
             if (find( visited.begin(), visited.end(), top) == visited.end())
             {
                 // If we have come to the edge of the graph.
-                TODO:FIX THE FINAL VALUE.
+                // TODO:FIX THE FINAL VALUE.
                 if ((top == 24) && (arr[top] == 1))
                 {
                     std::cout << "A path was found." << std::endl;
@@ -67,37 +71,37 @@ public:
                 {
                     // Top has been visited.
                     visited.insert(visited.end(), top);
-                    /*
-                    Add neighbours of top to the stack if they are taken by
-                    the current player.
-                    The position has to be in the array.
-                    TODO: MAKE SURE ALREADY VISITED NODES ARE NOT READDED.
-                    */
-                    if ((arr[top-1] == 1) && (top-1 > 0)) {
+
+                    // Add valid neighbours of top to the stack.
+                    // TODO: MAKE SURE ALREADY VISITED NODES ARE NOT READDED.
+                    if (isValidNeighbour(top-1, player, visited, nCols, nRow))
+                    {
                         nodes.push(top-1);
                     }
-                    if ((arr[top+1] == 1) && (top+1 > 0)) {
+                    if (isValidNeighbour(top+1, player, visited, nCols, nRow))
+                    {
                         nodes.push(top+1);
                     }
-                    if ((arr[top+nCols] == 1) && (top+nCols > 0)) {
+                    if (isValidNeighbour(top+nCols, player, visited, nCols, nRow))
+                    {
                         nodes.push(top+nCols);
                     }
-                    if ((arr[top + nCols - 1] == 1) && (top + nCols -1 > 0)) {
+                    if (isValidNeighbour(top + nCols - 1, player, visited, nCols, nRow))
+                    {
                         nodes.push(top + nCols - 1);
                     }
-                    if ((arr[top - nCols] == 1)  && (top - nCols > 0)){
+                    if (isValidNeighbour(top - nCols, player, visited, nCols, nRow))
+                    {
                         nodes.push(top - nCols);
                     }
-                    if ((arr[top - nCols + 1] == 1) && (top - nCols + 1 > 0)) {
+                    if (isValidNeighbour(top - nCols + 1, player, visited, nCols, nRow))
+                    {
                         nodes.push(top - nCols + 1);
                     }
                 }
             }
         }
-
     }
-
-
 };
 
 
