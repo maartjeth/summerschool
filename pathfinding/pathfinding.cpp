@@ -11,16 +11,18 @@ class pathfinding
     Find a route through a board represented as an integer array by using
     Depth First Search.
     */
+
 private:
+    // TODO:DO THESE HAVE TO BE IN A FUNCTION?
     // List of nodes that have been visited.
     std::list<int> visited;
     // Stack of nodes still to visit.
     std::stack<int> nodes;
 
     bool isVisited(int position)
-    // Check whether a position ahs been visited.
+    // Check whether a position has been visited.
     {
-        if (find(visited.begin(), visited.end(), position) == visited.end())
+        if (find(visited.begin(), visited.end(), position) != visited.end())
         {
             return true;
         }
@@ -39,7 +41,7 @@ private:
             if (position >= 0)
             {
                 // Check whether the position has already been visited.
-                if (isVisited(position))
+                if (!isVisited(position))
                 {
                     // Check whether the position is occupied by the current player.
                     if (arr[position] == player)
@@ -61,13 +63,15 @@ public:
         // While there are still nodes to be visited.
         while (!nodes.empty())
         {
+            std::cout << nodes.empty() << std::endl;
             // Find the top of the stack.
             int top;
             top = nodes.top();
+            // Remove the current value on the stack (otherwise infinite recursion!).
             nodes.pop();
-            std::cout << top << std::endl;
+            std::cout << top << std::endl; // DEBUG
             // If the top has not been visited.
-            if (isVisited(top))
+            if (!isVisited(top))
             {
                 // If we have come to the edge of the graph.
                 // TODO:FIX THE FINAL VALUE.
@@ -78,8 +82,8 @@ public:
                 }
                 else
                 {
-                    std::cout << "No path was found." << std::endl;
-                    
+                    std::cout << "No path was found." << std::endl; // DEGUG
+
                     // Top has been visited.
                     visited.insert(visited.end(), top);
 
@@ -111,6 +115,9 @@ public:
                 }
             }
         }
+        // No valid paths have been found
+        // FIXME: THIS IS NEVER REACHED, WHY???
+        std::cout << "There is no valid path!";
     }
 };
 
@@ -134,17 +141,17 @@ int main()
                             1, 1, 1, 1, 1, 1, -1, 0, 1, 1, 1,
                             1, 1, 1, 1, 1, 1, -1, 0, 1, 1, 1};
 
-    // int boardarray [] = {  -1, -1, 0, 1, 1, 1, -1, 0, 1, 1, 1,
-    //                         1, 1, -1, 0, 1, 1, -1, 0, 1, 1, 1,
-    //                         1, 1, 0, -1, 1, 1, -1, 0, 1, 1, 1,
-    //                         1, 0, -1, -1, 1, 1, -1, 0, 1, 1, 1,
-    //                         1, 1, 1, 1, -1, 1, -1, 0, 1, 1, 1,
-    //                         1, -1, 0, 1, 1, -1, -1, 0, 1, 1, 1,
-    //                         1, 1, -1, 0, 1, 1, -1, 0, 1, 1, 1,
-    //                         1, 1, 0, 1, 1, 1, -1, 0, 1, 1, 1,
-    //                         1, 0, -1, 1, 1, 1, 1, 1, 1, 1, 1,
-    //                         1, 1, 1, 1, 1, 1, -1, 0, 1, 1, 1,
-    //                         1, 1, 1, 1, 1, 1, -1, 0, 1, 1, 1};
+    int boardarray2 [] = {  -1, -1, 0, 1, 1, 1, -1, 0, 1, 1, 1,
+                            -1, -1, -1, 0, 1, 1, -1, 0, 1, 1, 1,
+                            1, 1, 0, -1, 1, 1, -1, 0, 1, 1, 1,
+                            1, 0, -1, -1, 1, 1, -1, 0, 1, 1, 1,
+                            1, 1, 1, 1, -1, 1, -1, 0, 1, 1, 1,
+                            1, -1, 0, 1, 1, -1, -1, 0, 1, 1, 1,
+                            1, 1, -1, 0, 1, 1, -1, 0, 1, 1, 1,
+                            1, 1, 0, 1, 1, 1, -1, 0, 1, 1, 1,
+                            1, 0, -1, 1, 1, 1, 1, 1, 1, 1, 1,
+                            1, 1, 1, 1, 1, 1, -1, 0, 1, 1, 1,
+                            1, 1, 1, 1, 1, 1, -1, 0, 1, 1, 1};
     // nRows = 5;
     // nCols = 5;
     // int boardarray [] = {1,0,0,0,0,
@@ -154,5 +161,5 @@ int main()
     //                     0,0,0,0,1};
 
     pathfinding finder;
-    finder.dfs(boardarray, 0, nRows, nCols, 1);
+    finder.dfs(boardarray2, 0, nRows, nCols, -1);
 }
