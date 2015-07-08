@@ -1,4 +1,4 @@
-/* Author: Maartje ter Hoeve
+/* Author: Maartje ter Hoeve, Teun Zwart
 
 Class to generate a block, which can be placed on the board.
 Players are defined by 0 or 1: cross = -1 and circle = 1.
@@ -84,6 +84,10 @@ int Block::getPlayer(void)
 }
 
 // Main function to test the code
+int main()
+{
+    Block blockArray[12];
+}
 /*int main()
 {
     int turn;
