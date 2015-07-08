@@ -36,7 +36,7 @@ class pathfinding
     */
 
 public:
-    float dfs(int arr [], int startnode)
+    void dfs(int arr [], int startnode, int nRow, int nCols)
     {
         // List of nodes that have been visited.
         std::list<int> visited;
@@ -57,19 +57,40 @@ public:
             if (find( visited.begin(), visited.end(), top) == visited.end())
             {
                 // If we have come to the edge of the graph.
-                if ((top+1)%13 == 0)
+                TODO:FIX THE FINAL VALUE.
+                if ((top == 24) && (arr[top] == 1))
                 {
+                    std::cout << "A path was found." << std::endl;
                     break;
                 }
                 else
                 {
                     // Top has been visited.
                     visited.insert(visited.end(), top);
-                    // Add neighbours of top to the stack.
-                    nodes.push(top-1);
-                    nodes.push(top+1);
-
-
+                    /*
+                    Add neighbours of top to the stack if they are taken by
+                    the current player.
+                    The position has to be in the array.
+                    TODO: MAKE SURE ALREADY VISITED NODES ARE NOT READDED.
+                    */
+                    if ((arr[top-1] == 1) && (top-1 > 0)) {
+                        nodes.push(top-1);
+                    }
+                    if ((arr[top+1] == 1) && (top+1 > 0)) {
+                        nodes.push(top+1);
+                    }
+                    if ((arr[top+nCols] == 1) && (top+nCols > 0)) {
+                        nodes.push(top+nCols);
+                    }
+                    if ((arr[top + nCols - 1] == 1) && (top + nCols -1 > 0)) {
+                        nodes.push(top + nCols - 1);
+                    }
+                    if ((arr[top - nCols] == 1)  && (top - nCols > 0)){
+                        nodes.push(top - nCols);
+                    }
+                    if ((arr[top - nCols + 1] == 1) && (top - nCols + 1 > 0)) {
+                        nodes.push(top - nCols + 1);
+                    }
                 }
             }
         }
@@ -84,19 +105,28 @@ int main()
 {
     // intArray board;
     // board.popArray();
-
-    int boardarray [] = {  1, -1, 0, 1, 1, 1, -1, 0, 1, 1, 1,
-                            1, 1, -1, 0, 1, 1, -1, 0, 1, 1, 1,
-                            1, 1, 0, 1, 1, 1, -1, 0, 1, 1, 1,
-                            1, 0, -1, 1, 1, 1, -1, 0, 1, 1, 1,
-                            1, 1, 1, 1, 1, 1, -1, 0, 1, 1, 1,
-                            1, -1, 0, 1, 1, 1, -1, 0, 1, 1, 1,
-                            1, 1, -1, 0, 1, 1, -1, 0, 1, 1, 1,
-                            1, 1, 0, 1, 1, 1, -1, 0, 1, 1, 1,
-                            1, 0, -1, 1, 1, 1, -1, 0, 1, 1, 1,
-                            1, 1, 1, 1, 1, 1, -1, 0, 1, 1, 1,
-                            1, 1, 1, 1, 1, 1, -1, 0, 1, 1, 1};
+    int nRows, nCols;
+    // nRows = 11;
+    // nCols = 11;
+    // int boardarray [] = {  1, -1, 0, 1, 1, 1, -1, 0, 1, 1, 1,
+    //                         1, 1, -1, 0, 1, 1, -1, 0, 1, 1, 1,
+    //                         1, 1, 0, 1, 1, 1, -1, 0, 1, 1, 1,
+    //                         1, 0, -1, 1, 1, 1, -1, 0, 1, 1, 1,
+    //                         1, 1, 1, 1, 1, 1, -1, 0, 1, 1, 1,
+    //                         1, -1, 0, 1, 1, 1, -1, 0, 1, 1, 1,
+    //                         1, 1, -1, 0, 1, 1, -1, 0, 1, 1, 1,
+    //                         1, 1, 0, 1, 1, 1, -1, 0, 1, 1, 1,
+    //                         1, 0, -1, 1, 1, 1, 1, 1, 1, 1, 1,
+    //                         1, 1, 1, 1, 1, 1, -1, 0, 1, 1, 1,
+    //                         1, 1, 1, 1, 1, 1, -1, 0, 1, 1, 1};
+    nRows = 5;
+    nCols = 5;
+    int boardarray [] = {1,0,0,0,0,
+                        1,1,1,0,0,
+                        0,0,1,1,1,
+                        0,0,0,0,1,
+                        0,0,0,0,1};
 
     pathfinding finder;
-    float firstnode = finder.dfs(boardarray, 120);
+    finder.dfs(boardarray, 0, nRows, nCols);
 }
