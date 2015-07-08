@@ -11,8 +11,7 @@ class pathfinding
     Find a route through a board represented as an integer array by using
     Depth First Search.
     */
-
-public:
+private:
     // List of nodes that have been visited.
     std::list<int> visited;
     // Stack of nodes still to visit.
@@ -53,14 +52,11 @@ public:
         return false;
     }
 
-    void dfs(int arr [], int startnode, int nRow, int nCols)
+public:
+    void dfs(int arr [], int startnode, int nRows, int nCols, int player)
     {
         // Add first node to the stack.
         nodes.push(startnode);
-
-        // Current player.
-        int player;
-        player = 1;
 
         // While there are still nodes to be visited.
         while (!nodes.empty())
@@ -82,31 +78,33 @@ public:
                 }
                 else
                 {
+                    std::cout << "No path was found." << std::endl;
+                    
                     // Top has been visited.
                     visited.insert(visited.end(), top);
 
                     // Add valid neighbours of top to the stack.
-                    if (isValidNeighbour(top-1, player, nCols, nRow, arr))
+                    if (isValidNeighbour(top-1, player, nCols, nRows, arr))
                     {
                         nodes.push(top-1);
                     }
-                    if (isValidNeighbour(top+1, player, nCols, nRow, arr))
+                    if (isValidNeighbour(top+1, player, nCols, nRows, arr))
                     {
                         nodes.push(top+1);
                     }
-                    if (isValidNeighbour(top+nCols, player, nCols, nRow, arr))
+                    if (isValidNeighbour(top+nCols, player, nCols, nRows, arr))
                     {
                         nodes.push(top+nCols);
                     }
-                    if (isValidNeighbour(top + nCols - 1, player, nCols, nRow, arr))
+                    if (isValidNeighbour(top + nCols - 1, player, nCols, nRows, arr))
                     {
                         nodes.push(top + nCols - 1);
                     }
-                    if (isValidNeighbour(top - nCols, player, nCols, nRow, arr))
+                    if (isValidNeighbour(top - nCols, player, nCols, nRows, arr))
                     {
                         nodes.push(top - nCols);
                     }
-                    if (isValidNeighbour(top - nCols + 1, player, nCols, nRow, arr))
+                    if (isValidNeighbour(top - nCols + 1, player, nCols, nRows, arr))
                     {
                         nodes.push(top - nCols + 1);
                     }
@@ -120,8 +118,10 @@ public:
 int main()
 {
     int nRows, nCols;
+
     nRows = 11;
     nCols = 11;
+
     int boardarray [] = {  1, -1, 0, 1, 1, 1, -1, 0, 1, 1, 1,
                             1, 1, -1, 0, 1, 1, -1, 0, 1, 1, 1,
                             1, 1, 0, 1, 1, 1, -1, 0, 1, 1, 1,
@@ -133,6 +133,18 @@ int main()
                             1, 0, -1, 1, 1, 1, 1, 1, 1, 1, 1,
                             1, 1, 1, 1, 1, 1, -1, 0, 1, 1, 1,
                             1, 1, 1, 1, 1, 1, -1, 0, 1, 1, 1};
+
+    // int boardarray [] = {  -1, -1, 0, 1, 1, 1, -1, 0, 1, 1, 1,
+    //                         1, 1, -1, 0, 1, 1, -1, 0, 1, 1, 1,
+    //                         1, 1, 0, -1, 1, 1, -1, 0, 1, 1, 1,
+    //                         1, 0, -1, -1, 1, 1, -1, 0, 1, 1, 1,
+    //                         1, 1, 1, 1, -1, 1, -1, 0, 1, 1, 1,
+    //                         1, -1, 0, 1, 1, -1, -1, 0, 1, 1, 1,
+    //                         1, 1, -1, 0, 1, 1, -1, 0, 1, 1, 1,
+    //                         1, 1, 0, 1, 1, 1, -1, 0, 1, 1, 1,
+    //                         1, 0, -1, 1, 1, 1, 1, 1, 1, 1, 1,
+    //                         1, 1, 1, 1, 1, 1, -1, 0, 1, 1, 1,
+    //                         1, 1, 1, 1, 1, 1, -1, 0, 1, 1, 1};
     // nRows = 5;
     // nCols = 5;
     // int boardarray [] = {1,0,0,0,0,
@@ -142,5 +154,5 @@ int main()
     //                     0,0,0,0,1};
 
     pathfinding finder;
-    finder.dfs(boardarray, 0, nRows, nCols);
+    finder.dfs(boardarray, 0, nRows, nCols, 1);
 }
