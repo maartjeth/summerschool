@@ -21,7 +21,7 @@ private:
     /*
     Stack of nodes still to visit. Sometimes nodes are added multiple times to
     the stack. This is because nodes have multiple neighbours. This is so
-    there is no check to see whether a node is already on the stack.
+    because there is no check to see whether a node is already on the stack.
     */
     std::stack<int> nodes;
     // Nodes to reach.

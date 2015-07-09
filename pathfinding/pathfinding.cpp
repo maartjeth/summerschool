@@ -36,21 +36,21 @@ bool Pathfinding::isValidNeighbour(int position, int player, int arr [], int nAr
 
 void Pathfinding::populateNodes(int arr [], int player, int nArrElements, int nCols, int nRows)
 {
-    // Add the starting nodes on the stack, depending on the player.
+    // Adds the starting nodes on the stack, depending on the player.
     // Player 1 plays left to right.
     if (player == 1)
     {
-        // Add the starting nodes on the stack.
+        // Adds the starting nodes on the stack.
         for (int k = 0; k < nArrElements; k += nCols)
         {
-            // If the position is claimed by the current player, add to stack.
+            // If the position is claimed by the current player, adds to stack.
             if (arr[k] == 1)
             {
                 // std::cout << "Found a starting node: " << k << std::endl; // NOTE: DEBUG
                 nodes.push(k);
             }
         }
-        // If the position is claimed by the current player, add to list.
+        // If the position is claimed by the current player, adds to list.
         for (int p = nCols - 1; p < nArrElements; p+= nCols)
         {
             if (arr[p] == 1)
@@ -62,10 +62,10 @@ void Pathfinding::populateNodes(int arr [], int player, int nArrElements, int nC
     // Player -1 plays top to bottom.
     else if (player == -1)
     {
-        // Add the starting nodes on the stack.
+        // Adds the starting nodes on the stack.
         for (int k = 0; k < nRows; k++)
         {
-            // If the position is claimed by the current player, add to stack.
+            // If the position is claimed by the current player, adds to stack.
             if (arr[k] == -1)
             {
                 // std::cout << "Found a starting node: " << k << std::endl; // NOTE: DEBUG
@@ -74,7 +74,7 @@ void Pathfinding::populateNodes(int arr [], int player, int nArrElements, int nC
         }
         for (int p = nArrElements - nCols; p < nArrElements; p++)
         {
-            // If the position is claimed by the current player, add to list.
+            // If the position is claimed by the current player, adds to list.
             if (arr[p] == -1)
             {
                 endNodes.insert(endNodes.end(), p);
@@ -130,7 +130,7 @@ bool Pathfinding::dfs(int arr [], int nRows, int nCols, int player)
                 {
                     if (isValidNeighbour(neighbours[i], player, arr, nArrElements))
                     {
-                        // Add valid neighbours of top to the stack.
+                        // Adds valid neighbours of top to the stack.
                         nodes.push(neighbours[i]);
                     }
                 }
