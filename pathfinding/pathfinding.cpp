@@ -6,7 +6,6 @@
 #include <list>
 
 // TODO: THROW EVERYTHING IN HEADER FILES?
-// FIXME: SOLVE SOME NODES BEING VISITED MULTIPLE TIMES. IT STILL WORKS?!?
 
 class Pathfinding
 {
@@ -18,22 +17,41 @@ class Pathfinding
 private:
     // List of nodes that have been visited.
     std::list<int> visited;
-    // Stack of nodes still to visit.
+    /*
+    Stack of nodes still to visit. Sometimes nodes are added multiple times to
+    the stack. This is because nodes have multiple neighbours. This is so
+    there is no check to see whether a node is already on the stack.
+    */
     std::stack<int> nodes;
     // Nodes to reach.
     std::list<int> endNodes;
 
     bool isVisited(int);
     bool isValidNeighbour(int, int, int *, int);
+    void populateNodes(int *, int, int, int, int);
+
+    // NOTE: DEBUG TO SEE WHAT IS ON THE STACK.
+    void print(std::stack<int> &s)
+    {
+        if(s.empty())
+        {
+            std::cout << std::endl;
+            return;
+        }
+        int x= s.top();
+        s.pop();
+        print(s);
+        s.push(x);
+        std::cout << x << " ";
+    }
 
 public:
     bool dfs(int *, int, int, int);
 };
 
-
 bool Pathfinding::isVisited(int position)
-// Check whether a position has been visited.
 {
+    // Check whether a position has been visited.
     if (find(visited.begin(), visited.end(), position) != visited.end())
     {
         return true;
@@ -59,12 +77,8 @@ bool Pathfinding::isValidNeighbour(int position, int player, int arr [], int nAr
     return false;
 }
 
-
-bool Pathfinding::dfs(int arr [], int nRows, int nCols, int player)
+void Pathfinding::populateNodes(int arr [], int player, int nArrElements, int nCols, int nRows)
 {
-    // Number of array elements.
-    int nArrElements = nCols * nRows;
-
     // Add the starting nodes on the stack, depending on the player.
     // Player 1 plays left to right.
     if (player == 1)
@@ -75,7 +89,7 @@ bool Pathfinding::dfs(int arr [], int nRows, int nCols, int player)
             // If the position is claimed by the current player, add to stack.
             if (arr[k] == 1)
             {
-                std::cout << "Got one!" << arr[k] << std::endl; // NOTE: DEBUG
+                std::cout << "Found a starting node: " << k << std::endl; // NOTE: DEBUG
                 nodes.push(k);
             }
         }
@@ -97,6 +111,7 @@ bool Pathfinding::dfs(int arr [], int nRows, int nCols, int player)
             // If the position is claimed by the current player, add to stack.
             if (arr[k] == -1)
             {
+                std::cout << "Found a starting node: " << k << std::endl; // NOTE: DEBUG
                 nodes.push(k);
             }
         }
@@ -109,6 +124,15 @@ bool Pathfinding::dfs(int arr [], int nRows, int nCols, int player)
             }
         }
     }
+}
+
+bool Pathfinding::dfs(int arr [], int nRows, int nCols, int player)
+{
+    // Number of array elements.
+    int nArrElements = nCols * nRows;
+
+    // Determine the start and end nodes.
+    populateNodes(arr, player, nArrElements, nCols, nRows);
 
     // NOTE: DEBUG
     for( std::list<int>::iterator i = endNodes.begin(); i != endNodes.end(); ++i)
@@ -117,6 +141,9 @@ bool Pathfinding::dfs(int arr [], int nRows, int nCols, int player)
     // While there are still nodes to be visited.
     while (!nodes.empty())
     {
+
+        print(nodes); // NOTE: DEBUG
+
         // Find the top of the stack.
         int top = nodes.top();
         // Remove the current value on the stack (otherwise infinite recursion!).
@@ -154,9 +181,8 @@ bool Pathfinding::dfs(int arr [], int nRows, int nCols, int player)
             }
         }
     }
-    // No valid paths have been found.
-    std::cout << "There is no valid path!" << std::endl;
-    // Clear the stack and list for the next round.
+    // No valid paths have been found. Clear the stack and list for the next round.
+    std::cout << "There is no valid path!" << std::endl; // NOTE: DEBUG
     visited.clear();
     endNodes.clear();
     while (!nodes.empty()) {nodes.pop();}
