@@ -163,7 +163,7 @@ void test(Block* arr, int arrayLen)
     for (int i=0; i<arrayLen; i++)
     {
        cout << i << ": ";
-       cout << ((arr+i)).getPlayer() << endl;
+       cout << ((arr+i)) << endl;
     }
 }
 
