@@ -46,7 +46,7 @@ void Pathfinding::populateNodes(int arr [], int player, int nArrElements, int nC
             // If the position is claimed by the current player, add to stack.
             if (arr[k] == 1)
             {
-                std::cout << "Found a starting node: " << k << std::endl; // NOTE: DEBUG
+                // std::cout << "Found a starting node: " << k << std::endl; // NOTE: DEBUG
                 nodes.push(k);
             }
         }
@@ -68,7 +68,7 @@ void Pathfinding::populateNodes(int arr [], int player, int nArrElements, int nC
             // If the position is claimed by the current player, add to stack.
             if (arr[k] == -1)
             {
-                std::cout << "Found a starting node: " << k << std::endl; // NOTE: DEBUG
+                // std::cout << "Found a starting node: " << k << std::endl; // NOTE: DEBUG
                 nodes.push(k);
             }
         }
@@ -91,15 +91,14 @@ bool Pathfinding::dfs(int arr [], int nRows, int nCols, int player)
     // Determine the start and end nodes.
     populateNodes(arr, player, nArrElements, nCols, nRows);
 
-    // NOTE: DEBUG
-    for( std::list<int>::iterator i = endNodes.begin(); i != endNodes.end(); ++i)
-        {std::cout << *i << std::endl;}
+    // NOTE: DEBUG TO SEE WHICH END NODES HAVE BEEN FOUND.
+    // for( std::list<int>::iterator i = endNodes.begin(); i != endNodes.end(); ++i)
+    //     {std::cout << *i << std::endl;}
 
     // While there are still nodes to be visited.
     while (!nodes.empty())
     {
-
-        print(nodes); // NOTE: DEBUG
+        // print(nodes); // NOTE: DEBUG
 
         // Find the top of the stack.
         int top = nodes.top();
@@ -139,7 +138,7 @@ bool Pathfinding::dfs(int arr [], int nRows, int nCols, int player)
         }
     }
     // No valid paths have been found. Clear the stack and list for the next round.
-    std::cout << "There is no valid path!" << std::endl; // NOTE: DEBUG
+    // std::cout << "There is no valid path!" << std::endl; // NOTE: DEBUG
     visited.clear();
     endNodes.clear();
     while (!nodes.empty()) {nodes.pop();}
