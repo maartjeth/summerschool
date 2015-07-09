@@ -4,50 +4,7 @@
 #include <iostream>
 #include <stack>
 #include <list>
-
-// TODO: THROW EVERYTHING IN HEADER FILES?
-
-class Pathfinding
-{
-    /*
-    Find a route through a board represented as an integer array by using
-    Depth First Search.
-    */
-
-private:
-    // List of nodes that have been visited.
-    std::list<int> visited;
-    /*
-    Stack of nodes still to visit. Sometimes nodes are added multiple times to
-    the stack. This is because nodes have multiple neighbours. This is so
-    there is no check to see whether a node is already on the stack.
-    */
-    std::stack<int> nodes;
-    // Nodes to reach.
-    std::list<int> endNodes;
-
-    bool isVisited(int);
-    bool isValidNeighbour(int, int, int *, int);
-    void populateNodes(int *, int, int, int, int);
-
-    // NOTE: DEBUG TO SEE WHAT IS ON THE STACK.
-    void print(std::stack<int> &s)
-    {
-        if(s.empty())
-        {
-            std::cout << std::endl;
-            return;
-        }
-        int x= s.top();
-        s.pop();
-        print(s);
-        s.push(x);
-        std::cout << x << " ";
-    }
-
-public:
-    bool dfs(int *, int, int, int);
-};
+#include "pathfinding.hpp"
 
 bool Pathfinding::isVisited(int position)
 {
@@ -187,50 +144,4 @@ bool Pathfinding::dfs(int arr [], int nRows, int nCols, int player)
     endNodes.clear();
     while (!nodes.empty()) {nodes.pop();}
     return false;
-}
-
-int main()
-{
-    int nRows = 11;
-    int nCols = 11;
-
-    int boardarray [] = {  1, -1, 0, 1, 1, -1, -1, 0, 1, 1, 1,
-                            1, 1, -1, 0, 1, -1, -1, 0, 1, 1, 1,
-                            1, 1, 0, 1, 1, -1, -1, 0, 1, 1, 1,
-                            1, 0, -1, 1, 1, -1, -1, 0, 1, 1, 1,
-                            1, 1, 1, 1, 1, -1, -1, 0, 1, 1, 1,
-                            1, -1, 0, 1, 1, -1, -1, 0, 1, 1, 1,
-                            1, 1, -1, 0, 1, -1, -1, 0, 1, 1, 1,
-                            1, 1, 0, 1, 1, -1, -1, 0, 1, 1, 1,
-                            1, 0, -1, 1, 1, -1, -1, 1, 1, 1, 1,
-                            1, 1, 1, 1, 1, -1, -1, 0, 1, 1, 1,
-                            1, 1, 1, 1, 1, -1, -1, 0, 1, 1, 1};
-
-    int boardarray2 [] = {  -1, -1, 0, 1, 1, 1, -1, 0, 1, 1, 1,
-                            -1, -1, -1, -1, -1, -1, -1, 0, 1, 1, 1,
-                            1, 1, 0, -1, 1, 1, -1, 0, 1, 1, 1,
-                            1, 0, -1, -1, 1, 1, -1, 0, 1, 1, 1,
-                            1, 1, 1, 1, -1, -1, -1, 0, 1, 1, 1,
-                            1, -1, 0, 1, 1, -1, -1, 0, 1, 1, 1,
-                            1, 1, -1, 0, 1, 1, -1, 0, 1, 1, 1,
-                            1, 1, 0, 1, 1, 1, -1, 0, 1, 1, 1,
-                            1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                            1, 1, 1, 1, 1, 1, -1, 0, 1, 1, 1,
-                            1, 1, 1, 1, 1, 1, -1, -1,-1, -1, -1, -1};
-    int nRows3 = 5;
-    int nCols3 = 5;
-    int boardarray3 [] = {1,0,0,0,0,
-                        1,1,1,0,0,
-                        0,0,1,1,1,
-                        0,0,0,0,1,
-                        0,0,0,0,1};
-
-    Pathfinding finder;
-    finder.dfs(boardarray, nRows, nCols, 1);
-    std::cout << std::endl;
-    finder.dfs(boardarray2, nRows, nCols, -1);
-    std::cout << std::endl;
-    finder.dfs(boardarray3, nRows3, nCols3, 1);
-    std::cout << std::endl;
-    finder.dfs(boardarray3, nRows3, nCols3, 0);
 }
