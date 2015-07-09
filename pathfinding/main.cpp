@@ -42,10 +42,10 @@ int main()
 
     Pathfinding finder;
     finder.dfs(boardarray, nRows, nCols, 1);
-    std::cout << std::endl;
+    // std::cout << std::endl;
     finder.dfs(boardarray2, nRows, nCols, -1);
-    std::cout << std::endl;
+    // std::cout << std::endl;
     finder.dfs(boardarray3, nRows3, nCols3, 1);
-    std::cout << std::endl;
+    // std::cout << std::endl;
     finder.dfs(boardarray3, nRows3, nCols3, 0);
 }

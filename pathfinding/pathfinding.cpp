@@ -104,14 +104,14 @@ bool Pathfinding::dfs(int arr [], int nRows, int nCols, int player)
         int top = nodes.top();
         // Remove the current value on the stack (otherwise infinite recursion!).
         nodes.pop();
-        std::cout << "Top: " << top << std::endl; // NOTE: DEBUG
+        // std::cout << "Top: " << top << std::endl; // NOTE: DEBUG
         // If the top has not been visited.
         if (!isVisited(top))
         {
             // If we have come to the edge of the graph.
             if (find(endNodes.begin(), endNodes.end(), top) != endNodes.end())
             {
-                std::cout << "A path was found." << std::endl;
+                // std::cout << "A path was found." << std::endl; // NOTE: DEBUG
                 // Clear the stack and list for the next round.
                 visited.clear();
                 endNodes.clear();
