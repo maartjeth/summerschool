@@ -6,6 +6,7 @@
 #include <list>
 
 // TODO: THROW EVERYTHING IN HEADER FILES?
+// FIXME: SOLVE SOME NODES BEING VISITED MULTIPLE TIMES. IT STILL WORKS?!?
 
 class pathfinding
 {
@@ -19,6 +20,8 @@ private:
     std::list<int> visited;
     // Stack of nodes still to visit.
     std::stack<int> nodes;
+    // Nodes to reach.
+    std::list<int> endNodes;
 
     bool isVisited(int position)
     // Check whether a position has been visited.
@@ -30,11 +33,8 @@ private:
         return false;
     }
 
-    bool isValidNeighbour(int position, int player, int nCols, int nRows, int arr [])
+    bool isValidNeighbour(int position, int player, int arr [], int nArrElements)
     {
-        // Number of array elements.
-        int nArrElements = nCols * nRows;
-
         // Check whether the position is on the board.
         if ((position < nArrElements) && (position >= 0))
         {
@@ -53,10 +53,46 @@ private:
 
 
 public:
-    bool dfs(int arr [], int startnode, int nRows, int nCols, int player)
+    bool dfs(int arr [], int nRows, int nCols, int player)
     {
-        // Add first node to the stack.
-        nodes.push(startnode);
+        // Number of array elements.
+        int nArrElements = nCols * nRows;
+
+        // Add the starting nodes on the stack, depending on the player.
+        // Player 1 plays left to right.
+        if (player == 1)
+        {
+            // Add the starting nodes on the stack.
+            for (int k = 0; k < nArrElements; k += nCols)
+            {
+                // If the position is claimed by the current player, add to stack.
+                if (arr[k] == 1)
+                {
+                    nodes.push(k);
+                }
+            }
+            for (int p = nCols - 1; p < nArrElements; p+= nCols)
+            {
+                endNodes.insert(endNodes.end(), p);
+            }
+        }
+        // Player -1 plays top to bottom.
+        else if (player == -1)
+        {
+            // Add the starting nodes on the stack.
+            for (int k = 0; k < nRows; k++)
+            {
+                // If the position is claimed by the current player, add to stack.
+                if (arr[k] == -1)
+                {
+                    nodes.push(k);
+                }
+            }
+            for (int p = nArrElements - nCols; p < nArrElements; p++)
+            {
+                endNodes.insert(endNodes.end(), p);
+            }
+        }
 
         // While there are still nodes to be visited.
         while (!nodes.empty())
@@ -70,12 +106,12 @@ public:
             if (!isVisited(top))
             {
                 // If we have come to the edge of the graph.
-                // TODO: FIX THE FINAL VALUE.
-                if (top == 120)
+                if (find(endNodes.begin(), endNodes.end(), top) != endNodes.end())
                 {
                     std::cout << "A path was found." << std::endl;
                     // Clear the stack and list for the next round.
                     visited.clear();
+                    endNodes.clear();
                     while (!nodes.empty()) {nodes.pop();}
                     return true;
                 }
@@ -89,7 +125,7 @@ public:
 
                     for (int i = 0; i < 6; i++)
                     {
-                        if (isValidNeighbour(neighbours[i], player, nCols, nRows, arr))
+                        if (isValidNeighbour(neighbours[i], player, arr, nArrElements))
                         {
                             // Add valid neighbours of top to the stack.
                             nodes.push(neighbours[i]);
@@ -98,10 +134,11 @@ public:
                 }
             }
         }
-        // No valid paths have been found
-        std::cout << "There is no valid path!" << std::endl; // NOTE: DEBUG
+        // No valid paths have been found.
+        std::cout << "There is no valid path!" << std::endl;
         // Clear the stack and list for the next round.
         visited.clear();
+        endNodes.clear();
         while (!nodes.empty()) {nodes.pop();}
         return false;
     }
@@ -126,16 +163,16 @@ int main()
                             1, 1, 1, 1, 1, -1, -1, 0, 1, 1, 1};
 
     int boardarray2 [] = {  -1, -1, 0, 1, 1, 1, -1, 0, 1, 1, 1,
-                            -1, -1, -1, 0, 1, 1, -1, 0, 1, 1, 1,
+                            -1, -1, -1, -1, -1, -1, -1, 0, 1, 1, 1,
                             1, 1, 0, -1, 1, 1, -1, 0, 1, 1, 1,
                             1, 0, -1, -1, 1, 1, -1, 0, 1, 1, 1,
-                            1, 1, 1, 1, -1, 1, -1, 0, 1, 1, 1,
+                            1, 1, 1, 1, -1, -1, -1, 0, 1, 1, 1,
                             1, -1, 0, 1, 1, -1, -1, 0, 1, 1, 1,
                             1, 1, -1, 0, 1, 1, -1, 0, 1, 1, 1,
                             1, 1, 0, 1, 1, 1, -1, 0, 1, 1, 1,
-                            1, 0, -1, 1, 1, 1, 1, 1, 1, 1, 1,
+                            1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1,
                             1, 1, 1, 1, 1, 1, -1, 0, 1, 1, 1,
-                            1, 1, 1, 1, 1, 1, -1, 0, 1, 1, 1};
+                            1, 1, 1, 1, 1, 1, -1, -1,-1, -1, -1, -1};
     int nRows3 = 5;
     int nCols3 = 5;
     int boardarray3 [] = {1,0,0,0,0,
@@ -145,9 +182,11 @@ int main()
                         0,0,0,0,1};
 
     pathfinding finder;
-    finder.dfs(boardarray, 0, nRows, nCols, 1);
+    finder.dfs(boardarray, nRows, nCols, 1);
     std::cout << std::endl;
-    finder.dfs(boardarray2, 0, nRows, nCols, -1);
+    finder.dfs(boardarray2, nRows, nCols, -1);
     std::cout << std::endl;
-    finder.dfs(boardarray3, 0, nRows3, nCols3, 1);
+    finder.dfs(boardarray3, nRows3, nCols3, 1);
+    std::cout << std::endl;
+    finder.dfs(boardarray3, nRows3, nCols3, 0);
 }
