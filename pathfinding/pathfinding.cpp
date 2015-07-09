@@ -68,12 +68,17 @@ public:
                 // If the position is claimed by the current player, add to stack.
                 if (arr[k] == 1)
                 {
+                    std::cout << "Got one!" << arr[k] << std::endl; // NOTE: DEBUG
                     nodes.push(k);
                 }
             }
+            // If the position is claimed by the current player, add to list.
             for (int p = nCols - 1; p < nArrElements; p+= nCols)
             {
-                endNodes.insert(endNodes.end(), p);
+                if (arr[p] == 1)
+                {
+                    endNodes.insert(endNodes.end(), p);
+                }
             }
         }
         // Player -1 plays top to bottom.
@@ -90,9 +95,17 @@ public:
             }
             for (int p = nArrElements - nCols; p < nArrElements; p++)
             {
-                endNodes.insert(endNodes.end(), p);
+                // If the position is claimed by the current player, add to list.
+                if (arr[p] == -1)
+                {
+                    endNodes.insert(endNodes.end(), p);
+                }
             }
         }
+
+        // NOTE: DEBUG
+        for( std::list<int>::iterator i = endNodes.begin(); i != endNodes.end(); ++i)
+            {std::cout << *i << std::endl;}
 
         // While there are still nodes to be visited.
         while (!nodes.empty())
