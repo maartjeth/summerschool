@@ -1,4 +1,4 @@
-SRC_FILES = pathfinding.cpp
+SRC_FILES = pathfinding.cpp main.cpp
 CC_FLAGS = -Weverything -g
 CC = g++
 
