@@ -5,6 +5,8 @@
 #include <stack>
 #include <list>
 
+// TODO: THROW EVERYTHING IN HEADER FILES?
+
 class pathfinding
 {
     /*
@@ -13,7 +15,6 @@ class pathfinding
     */
 
 private:
-    // TODO:DO THESE HAVE TO BE IN A FUNCTION?
     // List of nodes that have been visited.
     std::list<int> visited;
     // Stack of nodes still to visit.
@@ -32,22 +33,18 @@ private:
     bool isValidNeighbour(int position, int player, int nCols, int nRows, int arr [])
     {
         // Number of array elements.
-        int nArrElements;
-        nArrElements = nCols * nRows;
+        int nArrElements = nCols * nRows;
 
-        // Check whether the position is valid.
-        if (position < nArrElements)
+        // Check whether the position is on the board.
+        if ((position < nArrElements) && (position >= 0))
         {
-            if (position >= 0)
+            // Check whether the position has already been visited.
+            if (!isVisited(position))
             {
-                // Check whether the position has already been visited.
-                if (!isVisited(position))
+                // Check whether the position is occupied by the current player.
+                if (arr[position] == player)
                 {
-                    // Check whether the position is occupied by the current player.
-                    if (arr[position] == player)
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
         }
@@ -55,7 +52,7 @@ private:
     }
 
 public:
-    void dfs(int arr [], int startnode, int nRows, int nCols, int player)
+    bool dfs(int arr [], int startnode, int nRows, int nCols, int player)
     {
         // Add first node to the stack.
         nodes.push(startnode);
@@ -63,26 +60,25 @@ public:
         // While there are still nodes to be visited.
         while (!nodes.empty())
         {
-            std::cout << nodes.empty() << std::endl;
+            std::cout << "Stack not empty " << nodes.empty() << std::endl; // NOTE: DEBUG
             // Find the top of the stack.
-            int top;
-            top = nodes.top();
+            int top = nodes.top();
             // Remove the current value on the stack (otherwise infinite recursion!).
             nodes.pop();
-            std::cout << top << std::endl; // DEBUG
+            std::cout << "Top: " << top << std::endl; // NOTE: DEBUG
             // If the top has not been visited.
             if (!isVisited(top))
             {
                 // If we have come to the edge of the graph.
-                // TODO:FIX THE FINAL VALUE.
-                if (top == 120)
+                // TODO: FIX THE FINAL VALUE.
+                if (top == 24)
                 {
                     std::cout << "A path was found." << std::endl;
-                    break;
+                    return true;
                 }
                 else
                 {
-                    std::cout << "No path was found." << std::endl; // DEGUG
+                    std::cout << "No path was found." << std::endl; // NOTE: DEGUG
 
                     // Top has been visited.
                     visited.insert(visited.end(), top);
@@ -116,18 +112,22 @@ public:
             }
         }
         // No valid paths have been found
-        // FIXME: THIS IS NEVER REACHED, WHY???
-        std::cout << "There is no valid path!";
+        std::cout << "There is no valid path!" << std::endl; // NOTE: DEBUG
+        // Clear the stack and list for the next round.
+        visited.clear();
+        while (!nodes.empty())
+        {
+            nodes.pop();
+        }
+        return false;
     }
 };
 
 
 int main()
 {
-    int nRows, nCols;
-
-    nRows = 11;
-    nCols = 11;
+    int nRows = 11;
+    int nCols = 11;
 
     int boardarray [] = {  1, -1, 0, 1, 1, 1, -1, 0, 1, 1, 1,
                             1, 1, -1, 0, 1, 1, -1, 0, 1, 1, 1,
@@ -152,14 +152,19 @@ int main()
                             1, 0, -1, 1, 1, 1, 1, 1, 1, 1, 1,
                             1, 1, 1, 1, 1, 1, -1, 0, 1, 1, 1,
                             1, 1, 1, 1, 1, 1, -1, 0, 1, 1, 1};
-    // nRows = 5;
-    // nCols = 5;
-    // int boardarray [] = {1,0,0,0,0,
-    //                     1,1,1,0,0,
-    //                     0,0,1,1,1,
-    //                     0,0,0,0,1,
-    //                     0,0,0,0,1};
+    int nRows3 = 5;
+    int nCols3 = 5;
+    int boardarray3 [] = {1,0,0,0,0,
+                        1,1,1,0,0,
+                        0,0,1,1,1,
+                        0,0,0,0,1,
+                        0,0,0,0,1};
 
     pathfinding finder;
     finder.dfs(boardarray2, 0, nRows, nCols, -1);
+
+    finder.dfs(boardarray, 0, nRows, nCols, 1);
+    std::cout << std::endl;
+    finder.dfs(boardarray3, 0, nRows3, nCols3, 1);
+
 }
