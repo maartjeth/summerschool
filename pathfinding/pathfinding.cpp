@@ -51,6 +51,7 @@ private:
         return false;
     }
 
+
 public:
     bool dfs(int arr [], int startnode, int nRows, int nCols, int player)
     {
@@ -60,7 +61,6 @@ public:
         // While there are still nodes to be visited.
         while (!nodes.empty())
         {
-            std::cout << "Stack not empty " << nodes.empty() << std::endl; // NOTE: DEBUG
             // Find the top of the stack.
             int top = nodes.top();
             // Remove the current value on the stack (otherwise infinite recursion!).
@@ -71,42 +71,29 @@ public:
             {
                 // If we have come to the edge of the graph.
                 // TODO: FIX THE FINAL VALUE.
-                if (top == 24)
+                if (top == 120)
                 {
                     std::cout << "A path was found." << std::endl;
+                    // Clear the stack and list for the next round.
+                    visited.clear();
+                    while (!nodes.empty()) {nodes.pop();}
                     return true;
                 }
                 else
                 {
-                    std::cout << "No path was found." << std::endl; // NOTE: DEGUG
-
                     // Top has been visited.
                     visited.insert(visited.end(), top);
 
-                    // Add valid neighbours of top to the stack.
-                    if (isValidNeighbour(top-1, player, nCols, nRows, arr))
+                    // Get a list of neighbours.
+                    int neighbours[6] = {top-1,top+1,top+nCols,top+nCols-1,top-nCols,top-nCols+1};
+
+                    for (int i = 0; i < 6; i++)
                     {
-                        nodes.push(top-1);
-                    }
-                    if (isValidNeighbour(top+1, player, nCols, nRows, arr))
-                    {
-                        nodes.push(top+1);
-                    }
-                    if (isValidNeighbour(top+nCols, player, nCols, nRows, arr))
-                    {
-                        nodes.push(top+nCols);
-                    }
-                    if (isValidNeighbour(top + nCols - 1, player, nCols, nRows, arr))
-                    {
-                        nodes.push(top + nCols - 1);
-                    }
-                    if (isValidNeighbour(top - nCols, player, nCols, nRows, arr))
-                    {
-                        nodes.push(top - nCols);
-                    }
-                    if (isValidNeighbour(top - nCols + 1, player, nCols, nRows, arr))
-                    {
-                        nodes.push(top - nCols + 1);
+                        if (isValidNeighbour(neighbours[i], player, nCols, nRows, arr))
+                        {
+                            // Add valid neighbours of top to the stack.
+                            nodes.push(neighbours[i]);
+                        }
                     }
                 }
             }
@@ -115,10 +102,7 @@ public:
         std::cout << "There is no valid path!" << std::endl; // NOTE: DEBUG
         // Clear the stack and list for the next round.
         visited.clear();
-        while (!nodes.empty())
-        {
-            nodes.pop();
-        }
+        while (!nodes.empty()) {nodes.pop();}
         return false;
     }
 };
@@ -129,17 +113,17 @@ int main()
     int nRows = 11;
     int nCols = 11;
 
-    int boardarray [] = {  1, -1, 0, 1, 1, 1, -1, 0, 1, 1, 1,
-                            1, 1, -1, 0, 1, 1, -1, 0, 1, 1, 1,
-                            1, 1, 0, 1, 1, 1, -1, 0, 1, 1, 1,
-                            1, 0, -1, 1, 1, 1, -1, 0, 1, 1, 1,
-                            1, 1, 1, 1, 1, 1, -1, 0, 1, 1, 1,
-                            1, -1, 0, 1, 1, 1, -1, 0, 1, 1, 1,
-                            1, 1, -1, 0, 1, 1, -1, 0, 1, 1, 1,
-                            1, 1, 0, 1, 1, 1, -1, 0, 1, 1, 1,
-                            1, 0, -1, 1, 1, 1, 1, 1, 1, 1, 1,
-                            1, 1, 1, 1, 1, 1, -1, 0, 1, 1, 1,
-                            1, 1, 1, 1, 1, 1, -1, 0, 1, 1, 1};
+    int boardarray [] = {  1, -1, 0, 1, 1, -1, -1, 0, 1, 1, 1,
+                            1, 1, -1, 0, 1, -1, -1, 0, 1, 1, 1,
+                            1, 1, 0, 1, 1, -1, -1, 0, 1, 1, 1,
+                            1, 0, -1, 1, 1, -1, -1, 0, 1, 1, 1,
+                            1, 1, 1, 1, 1, -1, -1, 0, 1, 1, 1,
+                            1, -1, 0, 1, 1, -1, -1, 0, 1, 1, 1,
+                            1, 1, -1, 0, 1, -1, -1, 0, 1, 1, 1,
+                            1, 1, 0, 1, 1, -1, -1, 0, 1, 1, 1,
+                            1, 0, -1, 1, 1, -1, -1, 1, 1, 1, 1,
+                            1, 1, 1, 1, 1, -1, -1, 0, 1, 1, 1,
+                            1, 1, 1, 1, 1, -1, -1, 0, 1, 1, 1};
 
     int boardarray2 [] = {  -1, -1, 0, 1, 1, 1, -1, 0, 1, 1, 1,
                             -1, -1, -1, 0, 1, 1, -1, 0, 1, 1, 1,
@@ -161,10 +145,9 @@ int main()
                         0,0,0,0,1};
 
     pathfinding finder;
-    finder.dfs(boardarray2, 0, nRows, nCols, -1);
-
     finder.dfs(boardarray, 0, nRows, nCols, 1);
     std::cout << std::endl;
+    finder.dfs(boardarray2, 0, nRows, nCols, -1);
+    std::cout << std::endl;
     finder.dfs(boardarray3, 0, nRows3, nCols3, 1);
-
 }
