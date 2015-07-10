@@ -31,18 +31,30 @@ bool Pathfinding::isValidNeighbour(int neighbour, int player, std::vector<int> a
             {
                 // When position is at end of row (right side of board) and
                 // neighbour is on next row and at left side of board, it is
-                // not a valid neighbour.
+                // not a valid neighbour. (top + 1)
                 if (((position+1)%nCols == 0) && (neighbour == position + 1))
                 {
                     return false;
                 }
                 // When position is at beginning of row (left side of board) and
                 // neighbour is on previous row and at right side of board, it is
-                // not a valid neighbour.
+                // not a valid neighbour. (top - 1)
                 else if ((position%nCols == 0) && (neighbour == position -1))
                 {
                     return false;
                 }
+                // FIXME: Points on opposite ends of a row are seen as neighbours.
+                // // (top - nCols + 1)
+                // else if (((position - nCols + 1) == neighbour) && ((position + 1)%nCols == 0))
+                // {
+                //     return false;
+                // }
+                //
+                // // (top + nCols - 1)
+                // else if (((position + nCols - 1) == neighbour) && ((neighbour + 1)%nCols ==0)
+                // {
+                //     return false;
+                // }
                 else {return true;}
             }
         }
@@ -62,7 +74,7 @@ void Pathfinding::populateNodes(std::vector<int> arr, int player, int nArrElemen
             // If the position is claimed by the current player, adds to stack.
             if (arr[k] == 1)
             {
-                std::cout << "Found a starting node: " << k << std::endl; // NOTE: DEBUG
+                // std::cout << "Found a starting node: " << k << std::endl; // NOTE: DEBUG
                 nodes.push(k);
             }
         }
@@ -84,7 +96,7 @@ void Pathfinding::populateNodes(std::vector<int> arr, int player, int nArrElemen
             // If the position is claimed by the current player, adds to stack.
             if (arr[k] == -1)
             {
-                std::cout << "Found a starting node: " << k << std::endl; // NOTE: DEBUG
+                // std::cout << "Found a starting node: " << k << std::endl; // NOTE: DEBUG
                 nodes.push(k);
             }
         }
@@ -108,8 +120,8 @@ bool Pathfinding::dfs(std::vector<int> arr, int nRows, int nCols, int player)
     populateNodes(arr, player, nArrElements, nCols, nRows);
 
     // NOTE: DEBUG TO SEE WHICH END NODES HAVE BEEN FOUND.
-    for( std::list<int>::iterator i = endNodes.begin(); i != endNodes.end(); ++i)
-        {std::cout << "End nodes" << *i << std::endl;}
+    // for( std::list<int>::iterator i = endNodes.begin(); i != endNodes.end(); ++i)
+    //     {std::cout << "End nodes" << *i << std::endl;}
 
     // While there are still nodes to be visited.
     while (!nodes.empty())
@@ -120,14 +132,14 @@ bool Pathfinding::dfs(std::vector<int> arr, int nRows, int nCols, int player)
         int top = nodes.top();
         // Remove the current value on the stack (otherwise infinite recursion!).
         nodes.pop();
-        std::cout << "Top: " << top << std::endl; // NOTE: DEBUG
+        // std::cout << "Top: " << top << std::endl; // NOTE: DEBUG
         // If the top has not been visited.
         if (!isVisited(top))
         {
             // If we have come to the edge of the graph.
             if (find(endNodes.begin(), endNodes.end(), top) != endNodes.end())
             {
-                std::cout << "A path was found." << std::endl; // NOTE: DEBUG
+                // std::cout << "A path was found." << std::endl; // NOTE: DEBUG
                 // Clear the stack and list for the next round.
                 visited.clear();
                 endNodes.clear();
@@ -154,7 +166,7 @@ bool Pathfinding::dfs(std::vector<int> arr, int nRows, int nCols, int player)
         }
     }
     // No valid paths have been found. Clear the stack and list for the next round.
-    std::cout << "There is no valid path!" << std::endl; // NOTE: DEBUG
+    // std::cout << "There is no valid path!" << std::endl; // NOTE: DEBUG
     visited.clear();
     endNodes.clear();
     while (!nodes.empty()) {nodes.pop();}

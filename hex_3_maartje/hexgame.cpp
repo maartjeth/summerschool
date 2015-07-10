@@ -106,17 +106,9 @@ int convertToOneDimension(string position, int nCols){
     stringstream(splitStrY) >> positionYint;
     //cout << positionYint<<endl;
 
-
-
-
-
-
     int indexOneDimension = (positionYint * nCols) + positionXint;
     //cout << indexOneDimension;
     return indexOneDimension;
-
-
-
 }
 
 // This is where the game starts running
@@ -124,6 +116,9 @@ void runGame(int nRows, int nCols, bool gameRunning){
     vector<int> board = initializeGame(nRows, nCols);
     int turn = 1;
     int player = 1;
+
+    cout << "Player 1 (o) plays left to right, Player -1 (x) plays top to bottom." << endl;
+
     while (gameRunning == true) {
         cout << endl << "------------------- TURN: " << turn << " -------------------" << endl << endl;
         cout << "Player: " << player << endl << endl;
@@ -158,7 +153,7 @@ newposition:
         bool isWinningMove = path.dfs(board, nRows, nCols, player);
         if (isWinningMove == true)
         {
-            cout << "You won!" << endl;
+            cout << "Player " << player << " won!" << endl;
             drawBoard(board, arrayLength, nRows, nCols);
             break;
         }
