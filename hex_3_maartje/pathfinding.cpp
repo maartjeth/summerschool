@@ -17,18 +17,26 @@ bool Pathfinding::isVisited(int position)
     return false;
 }
 
-bool Pathfinding::isValidNeighbour(int position, int player, std::vector<int> arr, int nArrElements)
+bool Pathfinding::isValidNeighbour(int neighbour, int player, std::vector<int> arr, int nArrElements, int nCols, int position)
 {
     // Check whether the position is on the board.
-    if ((position < nArrElements) && (position >= 0))
+    if ((neighbour < nArrElements) && (neighbour >= 0))
     {
         // Check whether the position has already been visited.
-        if (!isVisited(position))
+        if (!isVisited(neighbour))
         {
             // Check whether the position is occupied by the current player.
-            if (arr[position] == player)
+            if (arr[neighbour] == player)
             {
-                return true;
+                if (((position+1)%nCols == 0) && (neighbour == position + 1))
+                {
+                    return false;
+                }
+                else if ((position%nCols == 0) && (neighbour == position -1))
+                {
+                    return false;
+                }
+                else {return true;}
             }
         }
     }
@@ -47,7 +55,7 @@ void Pathfinding::populateNodes(std::vector<int> arr, int player, int nArrElemen
             // If the position is claimed by the current player, adds to stack.
             if (arr[k] == 1)
             {
-                // std::cout << "Found a starting node: " << k << std::endl; // NOTE: DEBUG
+                std::cout << "Found a starting node: " << k << std::endl; // NOTE: DEBUG
                 nodes.push(k);
             }
         }
@@ -69,7 +77,7 @@ void Pathfinding::populateNodes(std::vector<int> arr, int player, int nArrElemen
             // If the position is claimed by the current player, adds to stack.
             if (arr[k] == -1)
             {
-                // std::cout << "Found a starting node: " << k << std::endl; // NOTE: DEBUG
+                std::cout << "Found a starting node: " << k << std::endl; // NOTE: DEBUG
                 nodes.push(k);
             }
         }
@@ -93,8 +101,8 @@ bool Pathfinding::dfs(std::vector<int> arr, int nRows, int nCols, int player)
     populateNodes(arr, player, nArrElements, nCols, nRows);
 
     // NOTE: DEBUG TO SEE WHICH END NODES HAVE BEEN FOUND.
-    // for( std::list<int>::iterator i = endNodes.begin(); i != endNodes.end(); ++i)
-    //     {std::cout << *i << std::endl;}
+    for( std::list<int>::iterator i = endNodes.begin(); i != endNodes.end(); ++i)
+        {std::cout << "End nodes" << *i << std::endl;}
 
     // While there are still nodes to be visited.
     while (!nodes.empty())
@@ -105,7 +113,7 @@ bool Pathfinding::dfs(std::vector<int> arr, int nRows, int nCols, int player)
         int top = nodes.top();
         // Remove the current value on the stack (otherwise infinite recursion!).
         nodes.pop();
-        // std::cout << "Top: " << top << std::endl; // NOTE: DEBUG
+        std::cout << "Top: " << top << std::endl; // NOTE: DEBUG
         // If the top has not been visited.
         if (!isVisited(top))
         {
@@ -129,7 +137,7 @@ bool Pathfinding::dfs(std::vector<int> arr, int nRows, int nCols, int player)
 
                 for (int i = 0; i < 6; i++)
                 {
-                    if (isValidNeighbour(neighbours[i], player, arr, nArrElements))
+                    if (isValidNeighbour(neighbours[i], player, arr, nArrElements, nCols, top))
                     {
                         // Adds valid neighbours of top to the stack.
                         nodes.push(neighbours[i]);

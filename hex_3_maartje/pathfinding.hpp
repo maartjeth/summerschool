@@ -29,23 +29,23 @@ private:
     std::list<int> endNodes;
 
     bool isVisited(int);
-    bool isValidNeighbour(int, int, std::vector<int>, int);
+    bool isValidNeighbour(int, int, std::vector<int>, int, int, int);
     void populateNodes(std::vector<int> , int, int, int, int);
 
     // NOTE: DEBUG TO SEE WHAT IS ON THE STACK.
-    // void print(std::stack<int> &s)
-    // {
-    //     if(s.empty())
-    //     {
-    //         std::cout << std::endl;
-    //         return;
-    //     }
-    //     int x= s.top();
-    //     s.pop();
-    //     print(s);
-    //     s.push(x);
-    //     std::cout << x << " ";
-    // }
+    void print(std::stack<int> &s)
+    {
+        if(s.empty())
+        {
+            std::cout << std::endl;
+            return;
+        }
+        int x= s.top();
+        s.pop();
+        print(s);
+        s.push(x);
+        std::cout << x << " ";
+    }
 
 public:
     bool dfs(std::vector<int>, int, int, int);
