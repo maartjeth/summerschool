@@ -75,6 +75,49 @@ vector<int> initializeGame(int nRows, int nCols)
     return blockArray;
 }
 
+int convertToOneDimension(string position, int nCols){
+    //cout << position;
+    string str = position;
+    string splitStrX;
+    string splitStrY;
+    string mystr;
+    bool readXPosition = false;
+    for (auto c : str){
+        if (readXPosition){
+            splitStrY += c;
+            //cout << splitStrY<<endl;
+        }else if (ispunct(c)){
+            readXPosition = true;
+        }else if (!readXPosition){//als de komma nog niet bereikt is, moeten de characters worden toegevoegd aan de splitStrX
+
+            splitStrX += c;
+            //cout << splitStrX<<endl;
+
+
+        }
+    }
+    //convert string to integer
+    int positionXint;
+    stringstream(splitStrX) >> positionXint;
+    //cout << positionXint<<endl;
+
+    int positionYint;
+    stringstream(splitStrY) >> positionYint;
+    //cout << positionYint<<endl;
+
+
+
+
+
+
+    int indexOneDimension = (positionYint * nCols) + positionXint;
+    //cout << indexOneDimension;
+    return indexOneDimension;
+
+
+
+}
+
 // This is where the game starts running
 void runGame(int nRows, int nCols, bool gameRunning){
     vector<int> board = initializeGame(nRows, nCols);
@@ -87,7 +130,7 @@ void runGame(int nRows, int nCols, bool gameRunning){
         int arrayLength = nRows * nCols;
         drawBoard(board, arrayLength, nRows, nCols);
         string position;
-        cout << "Please specify the position you want to put a stone on \nor type 'exit' to end the game. " << endl;
+        cout << "Please specify the position (x, y) you want to put a stone on \nor type 'exit' to end the game. " << endl;
         getline (cin, position);
 
         if (position == "exit"){
@@ -97,9 +140,9 @@ void runGame(int nRows, int nCols, bool gameRunning){
         }
 
 newposition:
-        istringstream buffer(position);
-        int positionint;
-        buffer >> positionint;
+        int positionint = convertToOneDimension(position, nCols);
+
+
 
         // check whether position is taken
 
