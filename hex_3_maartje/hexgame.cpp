@@ -11,90 +11,20 @@
 #include <string>
 #include <sstream>
 #include <stdexcept>
-#include "block.h"
-#include "board.h"
+#include <vector>
 
 using namespace std;
-
-
-/* --------------- CLASS BLOCK ------------------- */
-
-Block::Block()
-{
-    player = -1;
-}
-
-// Constructor: Set player to a
-Block::Block(int a)
-{
-    try
-    {
-        if ((a == 1) || (a == -1) || (a == 0))
-        {
-            player = a;
-        }
-        else
-        {
-            throw 1;
-        }
-    }
-    catch (int e)
-    {
-        cout << "This is not valid input.\n";
-    }
-}
-
-// Setter to change player's value if needed
-void Block::setPlayer(int a)
-{
-    try
-    {
-        if ((a == 1) || (a == -1) || (a == 0))
-        {
-            player = a;
-        }
-        else
-        {
-            throw 1;
-        }
-    }
-    catch (int e)
-    {
-        cout << "This is not valid input.\n";
-    }
-}
-
-// Getter to get the player's value
-int Block::getPlayer(void)
-{
-    return player;
-}
-
-
-/* --------------- CLASS BOARD ------------------- */
-
-Board::Board()
-{
-    cout << "blablabla";
-}
-
-Board::Board(int arrayLength)
-{
-    cout << "test";
-}
-
 
 /* --------------- PRINT BOARD ------------------- */
 
 //Deze functie print het aantal spaties dat gelijk is aan het rijnummer
 void indent(int row){
     for(int i = 0; i <row; i++){
-            cout << " ";
+        cout << " ";
     }
 }
 
-void drawBoard(Block* arr, int size, int nRows, int nCol){
-    int row, col;
+void drawBoard(vector<int> arr, int size, int nRows, int nCol){
     int currRow = 0;
     int currCol = 0;
     cout << "    ";//het eerste kolomnummer wordt met 4 spaties ingesprongen
@@ -104,87 +34,45 @@ void drawBoard(Block* arr, int size, int nRows, int nCol){
     cout << "\n\n" << currRow << "   ";//het eerste rij nummer wordt geprint
 
     for (int i = 0; i<size; i++){
-            row = (i+1)/(nCol);
-            if((*(arr+i)).getPlayer() == 1){
-                cout<< "o  ";//symbool voor speler 1
-                //als row groter is dan currRow moet een nieuwe rij begonnen worden
-                if (row > currRow){
-                    currRow = row;
-                    cout << "\n\n";
-                    indent(row);
-                    if (currRow < nRows){
-                         if (currRow <10){//10 heeft twee tekens, dus een spatie minder
-                            cout<< currRow << "   ";
-                         }
-                         else {
-                            cout<< currRow << "  ";
-                         }
-                    }
-                }
+        int row = (i+1)/(nCol);
+        if(((arr[i])) == 1){
+            cout<< "o  ";}//symbool voor speler 1
+        else if(((arr[i])) == -1){
+            cout << "x  ";}//symbool voor speler -1
+        else if(((arr[i])) == 0){cout << "-  ";}
+        //als row groter is dan currRow moet een nieuwe rij begonnen worden
+        if (row > currRow){
+            currRow = row;
+            cout << "\n\n";
+            indent(row);
+            if (currRow < nRows){
+                 if (currRow <10){//10 heeft twee tekens, dus een spatie minder
+                    cout<< currRow << "   ";
+                 }
+                 else {
+                    cout<< currRow << "  ";
+                 }
             }
-            else if((*(arr+i)).getPlayer() == -1){
-                cout << "x  ";//symbool voor speler -1
-                if (row > currRow){
-                    currRow = row;
-                    cout << "\n\n";
-                    indent(row);
-                    if (currRow < nRows){
-                         if (currRow <10){//10 heeft twee tekens, dus een spatie minder
-                            cout<< currRow << "   ";
-                         }
-                         else {
-                            cout<< currRow << "  ";
-                         }
-                    }
-                }
-            }
-            else if ((*(arr+i)).getPlayer() == 0){
-                cout << "-  ";
-                if (row > currRow){
-                    currRow = row;
-                    cout << "\n\n";
-                    indent(row);
-                    if (currRow < nRows){
-                        if (currRow <10){//10 heeft twee tekens, dus een spatie minder
-                             cout<< currRow << "   ";
-                        }
-                        else {
-                             cout<< currRow << "  ";
-                        }
-                    }
-                }
-            }
+        }
     }
 }
 
-void test(Block* arr, int arrayLen)
+
+void test(vector<int> arr, int arrayLen)
 {
-    //cout << (*arr).getPlayer();
+    cout << "Size of board " << arr.size() << endl;
     for (int i=0; i<arrayLen; i++)
     {
        cout << i << ": ";
-       cout << ((arr+i)) << endl;
+       cout << ((arr[i])) << endl;
     }
 }
 
 /* --------------- GAME LOOP ------------------- */
 
-Block* constructBoard(int arrayLength)
+vector<int> constructBoard(int arrayLength)
 {
-    //Block* emptyBoard = new Block[arrayLength];
-    Block blockArray[arrayLength];
-
-    for (int i=0; i<arrayLength; i++)
-    {
-        blockArray[i].setPlayer(0);
-    }
-
-    /*// check whether array is correct
-    int nRows = 5;
-    int nCol = 5;
-    drawBoard(blockArray, arrayLength, nRows, nCol); */
-
-
+    vector<int> blockArray(arrayLength, 0);
     return blockArray;
 }
 
@@ -192,29 +80,32 @@ Block* constructBoard(int arrayLength)
 // other function that adds items to the array
 
 // Creates board with block objects, all player values are set to zero
-void initializeGame(int nRows, int nCol)
+vector<int> initializeGame(int nRows, int nCols)
 {
-    int arrayLength = nRows*nCol;
+    int arrayLength = nRows*nCols;
 
-    /*Block* blockArray
+    vector<int> blockArray = constructBoard(arrayLength);
 
-    Block blockArray[arrayLength];
-    for(int i = 0; i < arrayLength; i++){
-        blockArray[i].setPlayer(0);//Alles is bezet door speler 1
-    } */
-
-    Block* blockArrayPointer;
-
-    blockArrayPointer = constructBoard(arrayLength);
-
-    test(blockArrayPointer, arrayLength);
-    //drawBoard(blockArrayPointer, arrayLength, nRows, nCol);
-    cout << endl;
+    // test(blockArray, arrayLength);
+    drawBoard(blockArray, arrayLength, nRows, nCols);
+    // cout << endl;
+    return blockArray;
 }
 
 // This is where the game starts running
-void runGame(int nRows, int nCols){
-    initializeGame(nRows, nCols);
+void runGame(int nRows, int nCols, bool gameRunning){
+    vector<int> board = initializeGame(nRows, nCols);
+    int turn;
+    // while (gameRunning == true) {
+    //     cout << "Turn " << turn << endl;
+    //
+    // }
+    cout << "The game is running!\n";
+    board[4] = 1;
+    board[6] = -1;
+    int arrayLength = nRows * nCols;
+    drawBoard(board, arrayLength, nRows, nCols);
+
     //gameLoop();
 }
 
@@ -226,7 +117,7 @@ int main (){
 //  The user can choose to start with 'y' or quit with 'n'. Any other command will ask again to start the game.
     cout << "Welcome to Hex! \n";
 start:
-    cout << "Do you want to start a new game? (y/n) \n";
+    cout << "Do you want to start a new game? (y/n) ";
     string mystr;
     bool gameRunning;
     getline (cin, mystr);
@@ -241,7 +132,7 @@ start:
 
         gameRunning = true;
         cout << "Type '?' to check if game is running; type 'exit' to shut down. \n";
-        runGame(nRows, nCols);
+        runGame(nRows, nCols, gameRunning);
     }
 
     else if(mystr == "n"){
@@ -260,7 +151,7 @@ start:
         getline (cin, mystr);
         if (mystr == "exit"){
             gameRunning = false;
-            cout << "The game will shut down.";
+            cout << "The game will shut down.\n";
         }
         else if(mystr == "?"){
             gameRunning = true;
@@ -271,7 +162,7 @@ start:
         else{
             gameRunning = true;
             cout << "Command unknown \n";
-            //runGame();
+            //runGame(nRows, nCols);
         }
 
     }
