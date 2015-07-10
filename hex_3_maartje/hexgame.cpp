@@ -1,5 +1,5 @@
 /*
-* Authors: Jaco & Tom
+* Authors: Jaco & Tom & Teun
 * This is the introduction to the game Hex. Running this file will start the game.
 *
 * !! This code is not finished yet; game should be implemented in While loop.
@@ -35,10 +35,8 @@ void drawBoard(vector<int> arr, int size, int nRows, int nCol){
 
     for (int i = 0; i<size; i++){
         int row = (i+1)/(nCol);
-        if(((arr[i])) == 1){
-            cout<< "o  ";}//symbool voor speler 1
-        else if(((arr[i])) == -1){
-            cout << "x  ";}//symbool voor speler -1
+        if(((arr[i])) == 1){cout<< "o  ";}//symbool voor speler 1
+        else if(((arr[i])) == -1){cout << "x  ";}//symbool voor speler -1
         else if(((arr[i])) == 0){cout << "-  ";}
         //als row groter is dan currRow moet een nieuwe rij begonnen worden
         if (row > currRow){
@@ -95,16 +93,23 @@ vector<int> initializeGame(int nRows, int nCols)
 // This is where the game starts running
 void runGame(int nRows, int nCols, bool gameRunning){
     vector<int> board = initializeGame(nRows, nCols);
-    int turn;
-    // while (gameRunning == true) {
-    //     cout << "Turn " << turn << endl;
-    //
-    // }
+    int turn = 1;
+    int player = 1;
+    while (gameRunning == true) {
+        cout << "Turn " << turn << endl << endl;
+        int arrayLength = nRows * nCols;
+        drawBoard(board, arrayLength, nRows, nCols);
+        string x, y;
+        cout << "At which x-position do you want to put a stone: ";
+        getline (cin, x);
+        cout << "At which y-position do you want to put a stone: ";
+        getline (cin, y);
+        int position = stoi(x) * stoi(y);
+        board[position] = player;
+        turn += 1;
+    }
     cout << "The game is running!\n";
-    board[4] = 1;
-    board[6] = -1;
-    int arrayLength = nRows * nCols;
-    drawBoard(board, arrayLength, nRows, nCols);
+
 
     //gameLoop();
 }
