@@ -1,6 +1,6 @@
-SRC_FILES = pathfinding.cpp main.cpp
+SRC_FILES = pathfinding.cpp hexgame.cpp
 CC_FLAGS = -Weverything -g
 CC = g++
 
 all:
-	${CC} ${SRC_FILES} ${CC_FLAGS} -o path && ./path
+	${CC} ${SRC_FILES} ${CC_FLAGS} -o hex

@@ -116,6 +116,8 @@ newposition:
         if (isWinningMove == true)
         {
             cout << "You won!" << endl;
+            drawBoard(board, arrayLength, nRows, nCols);
+            break;
         }
 
         turn += 1;
