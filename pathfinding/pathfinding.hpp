@@ -7,6 +7,7 @@
 #include <iostream>
 #include <list>
 #include <stack>
+#include <vector>
 
 class Pathfinding
 {
@@ -28,8 +29,8 @@ private:
     std::list<int> endNodes;
 
     bool isVisited(int);
-    bool isValidNeighbour(int, int, int *, int);
-    void populateNodes(int *, int, int, int, int);
+    bool isValidNeighbour(int, int, std::vector<int>, int);
+    void populateNodes(std::vector<int> , int, int, int, int);
 
     // NOTE: DEBUG TO SEE WHAT IS ON THE STACK.
     // void print(std::stack<int> &s)
@@ -47,7 +48,7 @@ private:
     // }
 
 public:
-    bool dfs(int *, int, int, int);
+    bool dfs(std::vector<int>, int, int, int);
 };
 
 #endif

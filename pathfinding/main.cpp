@@ -40,12 +40,14 @@ int main()
                         0,0,0,0,1,
                         0,0,0,0,1};
 
+    std::vector<int> board(nRows3 * nCols3, 0);
+
     Pathfinding finder;
-    finder.dfs(boardarray, nRows, nCols, 1);
+    finder.dfs(board, nRows, nCols, 1);
     // std::cout << std::endl;
-    finder.dfs(boardarray2, nRows, nCols, -1);
+    // finder.dfs(boardarray2, nRows, nCols, -1);
     // std::cout << std::endl;
-    finder.dfs(boardarray3, nRows3, nCols3, 1);
+    // finder.dfs(boardarray3, nRows3, nCols3, 1);
     // std::cout << std::endl;
-    finder.dfs(boardarray3, nRows3, nCols3, 0);
+    // finder.dfs(boardarray3, nRows3, nCols3, 0);
 }
