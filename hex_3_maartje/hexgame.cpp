@@ -12,6 +12,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <vector>
+#include "pathfinding.hpp"
 
 using namespace std;
 
@@ -109,6 +110,12 @@ newposition:
             cout << "This position is already taken! Please specify the position again. " << endl;
             getline(cin, position);
             goto newposition;
+        }
+        Pathfinding path;
+        bool isWinningMove = path.dfs(board, nRows, nCols, player);
+        if (isWinningMove == true)
+        {
+            cout << "You won!" << endl;
         }
 
         turn += 1;
