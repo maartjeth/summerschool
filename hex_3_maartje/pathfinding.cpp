@@ -28,10 +28,16 @@ bool Pathfinding::isValidNeighbour(int neighbour, int player, std::vector<int> a
             // Check whether the position is occupied by the current player.
             if (arr[neighbour] == player)
             {
+                // When position is at end of row (right side of board) and
+                // neighbour is on next row and at left side of board, it is
+                // not a valid neighbour.
                 if (((position+1)%nCols == 0) && (neighbour == position + 1))
                 {
                     return false;
                 }
+                // When position is at beginning of row (left side of board) and
+                // neighbour is on previous row and at right side of board, it is
+                // not a valid neighbour.
                 else if ((position%nCols == 0) && (neighbour == position -1))
                 {
                     return false;

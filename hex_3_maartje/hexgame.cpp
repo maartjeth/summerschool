@@ -119,7 +119,13 @@ newposition:
             drawBoard(board, arrayLength, nRows, nCols);
             break;
         }
-
+        // When the board is full, end the game.
+        if (turn >=arrayLength)
+        {
+            cout << "That's a draw." << endl;
+            drawBoard(board, arrayLength, nRows, nCols);
+            break;
+        }
         turn += 1;
         player *= -1;
 
