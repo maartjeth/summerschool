@@ -85,7 +85,7 @@ vector<int> initializeGame(int nRows, int nCols)
     vector<int> blockArray = constructBoard(arrayLength);
 
     // test(blockArray, arrayLength);
-    drawBoard(blockArray, arrayLength, nRows, nCols);
+    // drawBoard(blockArray, arrayLength, nRows, nCols);
     // cout << endl;
     return blockArray;
 }
@@ -99,14 +99,13 @@ void runGame(int nRows, int nCols, bool gameRunning){
         cout << "Turn " << turn << endl << endl;
         int arrayLength = nRows * nCols;
         drawBoard(board, arrayLength, nRows, nCols);
-        string x, y;
-        cout << "At which x-position do you want to put a stone: ";
-        getline (cin, x);
-        cout << "At which y-position do you want to put a stone: ";
-        getline (cin, y);
-        int position = stoi(x) * stoi(y);
-        board[position] = player;
+        string position;
+        cout << "At which position do you want to put a stone: ";
+        getline (cin, position);
+        int positionint = atoi(position.c_str());
+        board[positionint] = player;
         turn += 1;
+        player *= -1;
     }
     cout << "The game is running!\n";
 
