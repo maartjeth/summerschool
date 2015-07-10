@@ -1,5 +1,5 @@
 /*
-* Authors: Jaco & Tom & Teun
+* Authors: Jaco & Tom & Teun & Maartje
 * This is the introduction to the game Hex. Running this file will start the game.
 *
 * !! This code is not finished yet; game should be implemented in While loop.
@@ -53,18 +53,9 @@ void drawBoard(vector<int> arr, int size, int nRows, int nCol){
             }
         }
     }
+    cout << endl;
 }
 
-
-void test(vector<int> arr, int arrayLen)
-{
-    cout << "Size of board " << arr.size() << endl;
-    for (int i=0; i<arrayLen; i++)
-    {
-       cout << i << ": ";
-       cout << ((arr[i])) << endl;
-    }
-}
 
 /* --------------- GAME LOOP ------------------- */
 
@@ -75,18 +66,12 @@ vector<int> constructBoard(int arrayLength)
 }
 
 
-// other function that adds items to the array
-
 // Creates board with block objects, all player values are set to zero
 vector<int> initializeGame(int nRows, int nCols)
 {
     int arrayLength = nRows*nCols;
-
     vector<int> blockArray = constructBoard(arrayLength);
 
-    // test(blockArray, arrayLength);
-    // drawBoard(blockArray, arrayLength, nRows, nCols);
-    // cout << endl;
     return blockArray;
 }
 
@@ -96,23 +81,41 @@ void runGame(int nRows, int nCols, bool gameRunning){
     int turn = 1;
     int player = 1;
     while (gameRunning == true) {
-        cout << "Turn " << turn << endl << endl;
+        cout << endl << "------------------- TURN: " << turn << " -------------------" << endl << endl;
+        cout << "Player: " << player << endl << endl;
+        //cout << "Turn " << turn << endl << endl;
         int arrayLength = nRows * nCols;
         drawBoard(board, arrayLength, nRows, nCols);
         string position;
-        cout << "At which position do you want to put a stone: ";
+        cout << "Please specify the position you want to put a stone on \nor type 'exit' to end the game. " << endl;
         getline (cin, position);
+
+        if (position == "exit"){
+            gameRunning = false;
+            cout << "Thanks for playing! The game will shut down.\n";
+            break;
+        }
+
+newposition:
         istringstream buffer(position);
         int positionint;
         buffer >> positionint;
-        board[positionint] = player;
+
+        // check whether position is taken
+
+        if (board[positionint] == 0){
+          board[positionint] = player;
+        } else {
+            cout << "This position is already taken! Please specify the position again. " << endl;
+            getline(cin, position);
+            goto newposition;
+        }
+
         turn += 1;
         player *= -1;
+
+
     }
-    cout << "The game is running!\n";
-
-
-    //gameLoop();
 }
 
 
@@ -137,7 +140,7 @@ start:
         stringstream(mystr) >> nRows;
 
         gameRunning = true;
-        cout << "Type '?' to check if game is running; type 'exit' to shut down. \n";
+        cout << "Type 'exit' to shut down. \n";
         runGame(nRows, nCols, gameRunning);
     }
 
@@ -151,26 +154,5 @@ start:
         goto start;
     }
 
-//  If the user starts the game using 'y', the game will run (i.e. runGame();).
-//  The user can check if the game is still running with '?' and can quit the game with 'exit'.
-    while (gameRunning){
-        getline (cin, mystr);
-        if (mystr == "exit"){
-            gameRunning = false;
-            cout << "The game will shut down.\n";
-        }
-        else if(mystr == "?"){
-            gameRunning = true;
-            cout << "Game still running \n";
-            //runGame();
-            // << Here the actual game should be implemented (possibly instead of checking if the game still runs). >>
-        }
-        else{
-            gameRunning = true;
-            cout << "Command unknown \n";
-            //runGame(nRows, nCols);
-        }
-
-    }
-	return 0;
+    return 0;
 }
