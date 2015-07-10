@@ -4,6 +4,7 @@
 #include <iostream>
 #include <stack>
 #include <list>
+#include <stack>
 #include "pathfinding.hpp"
 
 bool Pathfinding::isVisited(int position)
@@ -16,7 +17,7 @@ bool Pathfinding::isVisited(int position)
     return false;
 }
 
-bool Pathfinding::isValidNeighbour(int position, int player, int arr [], int nArrElements)
+bool Pathfinding::isValidNeighbour(int position, int player, std::vector<int> arr, int nArrElements)
 {
     // Check whether the position is on the board.
     if ((position < nArrElements) && (position >= 0))
@@ -34,7 +35,7 @@ bool Pathfinding::isValidNeighbour(int position, int player, int arr [], int nAr
     return false;
 }
 
-void Pathfinding::populateNodes(int arr [], int player, int nArrElements, int nCols, int nRows)
+void Pathfinding::populateNodes(std::vector<int> arr, int player, int nArrElements, int nCols, int nRows)
 {
     // Adds the starting nodes on the stack, depending on the player.
     // Player 1 plays left to right.
@@ -83,7 +84,7 @@ void Pathfinding::populateNodes(int arr [], int player, int nArrElements, int nC
     }
 }
 
-bool Pathfinding::dfs(int arr [], int nRows, int nCols, int player)
+bool Pathfinding::dfs(std::vector<int> arr, int nRows, int nCols, int player)
 {
     // Number of array elements.
     int nArrElements = nCols * nRows;
@@ -111,7 +112,7 @@ bool Pathfinding::dfs(int arr [], int nRows, int nCols, int player)
             // If we have come to the edge of the graph.
             if (find(endNodes.begin(), endNodes.end(), top) != endNodes.end())
             {
-                // std::cout << "A path was found." << std::endl; // NOTE: DEBUG
+                std::cout << "A path was found." << std::endl; // NOTE: DEBUG
                 // Clear the stack and list for the next round.
                 visited.clear();
                 endNodes.clear();
@@ -138,7 +139,7 @@ bool Pathfinding::dfs(int arr [], int nRows, int nCols, int player)
         }
     }
     // No valid paths have been found. Clear the stack and list for the next round.
-    // std::cout << "There is no valid path!" << std::endl; // NOTE: DEBUG
+    std::cout << "There is no valid path!" << std::endl; // NOTE: DEBUG
     visited.clear();
     endNodes.clear();
     while (!nodes.empty()) {nodes.pop();}
