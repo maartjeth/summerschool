@@ -5,6 +5,7 @@
 #include <stack>
 #include <list>
 #include <stack>
+#include <algorithm>
 #include "pathfinding.hpp"
 
 bool Pathfinding::isVisited(int position)
