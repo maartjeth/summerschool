@@ -102,7 +102,9 @@ void runGame(int nRows, int nCols, bool gameRunning){
         string position;
         cout << "At which position do you want to put a stone: ";
         getline (cin, position);
-        int positionint = atoi(position.c_str());
+        istringstream buffer(position);
+        int positionint;
+        buffer >> positionint;
         board[positionint] = player;
         turn += 1;
         player *= -1;
